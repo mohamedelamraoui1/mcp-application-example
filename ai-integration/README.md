@@ -1,6 +1,16 @@
 # MCP Knowledge Base System
 
-This is a Model Context Protocol (MCP) server that provides access to a company knowledge base through OpenAI's chat completions API.
+This is a Model Context Protocol (MCP) server that provides access to a company knowledge base through Groq's chat completions API.
+
+## ✅ Current Status: WORKING!
+
+The `client-simple.py` is now fully functional and successfully:
+- Connects to the MCP server
+- Communicates with Groq API (free tier)
+- Retrieves information from the knowledge base
+- Provides intelligent responses
+
+**Quick Test**: Run `python client-simple.py` to see it in action!
 
 ## Understanding the Problem You Encountered
 
@@ -15,10 +25,10 @@ When you ran `python server.py` directly, the terminal hung because:
 ```
 [Client] ←→ [MCP Server] ←→ [Knowledge Base (JSON)]
    ↓
-[OpenAI API]
+[Groq API]
 ```
 
-1. **Client** (`client.py`) - Handles user queries and OpenAI communication
+1. **Client** (`client-simple.py`) - Handles user queries and Groq communication
 2. **MCP Server** (`server.py`) - Provides tools to access the knowledge base
 3. **Knowledge Base** (`data/kb.json`) - Contains Q&A data
 
@@ -35,78 +45,85 @@ When you ran `python server.py` directly, the terminal hung because:
 pip install -r ../requirements.txt
 ```
 
-### 3. Set Up OpenAI API Key
-Edit the `.env` file and add your OpenAI API key:
+### 3. Set Up Groq API Key
+Edit the `.env` file and add your Groq API key:
 ```
-OPENAI_API_KEY=your_actual_api_key_here
+GROQ_API_KEY=your_actual_api_key_here
 ```
 
-Get your API key from: https://platform.openai.com/api-keys
+Get your API key from: https://console.groq.com/keys
 
 ## Running the System
 
-### Option 1: Test Server Only (No OpenAI Required)
+### Option 1: Test Server Only (No Groq API Required)
 ```powershell
 python test_server.py
 ```
-This tests the MCP server functionality without requiring an OpenAI API key.
+This tests the MCP server functionality without requiring a Groq API key.
 
-### Option 2: Full Demo with OpenAI Integration
+### Option 2: Full Demo with Groq Integration
 ```powershell
-python demo.py
+python client-simple.py
 ```
-This runs the complete system with OpenAI integration.
+This runs the complete system with Groq integration - **Currently Working!**
 
-### Option 3: Use Client Directly
+### Option 3: Alternative Clients (if available)
 ```powershell
-python client.py
+python client.py  # If you have other client implementations
 ```
-This runs the main client application.
 
 ## Files Explanation
 
 - `server.py` - MCP server that provides knowledge base access
-- `client.py` - Main client that integrates OpenAI with MCP tools
-- `demo.py` - Demonstration script showing how to use the system
-- `test_server.py` - Simple test script for the MCP server only
+- `client-simple.py` - **Main working client** that integrates Groq with MCP tools
+- `client.py` - Alternative client implementation (if available)
 - `data/kb.json` - Knowledge base containing Q&A pairs
-- `.env` - Environment variables (OpenAI API key)
+- `.env` - Environment variables (Groq API key)
+- `requirements.txt` - Python dependencies
 
 ## Troubleshooting
 
 ### "Terminal hangs when running server.py"
 - **Don't run `server.py` directly**
-- Use `test_server.py` or `demo.py` instead
+- Use `client-simple.py` instead
 - The server is designed to be used by a client, not run standalone
 
-### "OpenAI API errors"
+### "Groq API errors"
 - Check that your API key is set in `.env`
-- Ensure you have credits in your OpenAI account
+- Ensure you have credits in your Groq account (free tier available)
 - Verify the API key is valid
+- Check your internet connection
 
 ### "Import errors"
 - Make sure virtual environment is activated
 - Run `pip install -r ../requirements.txt`
+- Install missing packages: `pip install groq python-dotenv nest-asyncio`
 
 ### "File not found errors"
 - Ensure you're in the `ai-integration` directory
 - Check that `data/kb.json` exists
+- Verify `.env` file is in the parent directory (`../.env`)
 
 ## Example Usage
 
-1. Start with testing the server:
+1. **Quick Start** (Currently Working):
    ```powershell
-   python test_server.py
+   python client-simple.py
    ```
 
-2. If that works, try the full demo:
-   ```powershell
-   python demo.py
-   ```
+2. The system will automatically:
+   - Connect to the MCP server
+   - Ask the predefined question: "What is our company's vacation policy?"
+   - Use Groq AI to process the query
+   - Retrieve information from the knowledge base
+   - Provide an intelligent response
 
-3. Ask questions like:
+3. **Sample Questions** you can modify in the code:
    - "What is our company's vacation policy?"
    - "How do I request a new software license?"
    - "What is our remote work policy?"
+   - "What are the company benefits?"
 
-The system will use the MCP server to retrieve relevant information from the knowledge base and provide intelligent responses through OpenAI.
+4. **To customize queries**: Edit the `main()` function in `client-simple.py` and change the `query` variable.
+
+The system uses the MCP server to retrieve relevant information from the knowledge base and provides intelligent responses through Groq's LLM API (free tier available).
